@@ -23,7 +23,15 @@ git diff               # also works for committed history, `git log -p`, `git sh
 
 Try it: on a branch, replace `samples/budget.xlsx` with `samples/budget_updated.xlsx`, open a PR against `main`, and read the bot comment.
 
-## 3. Other options
+## 3. Files changed tab: sidecar text files
+
+GitHub's Files changed tab only diffs text, so each workbook has a generated `<name>.xlsx.txt` next to it (for example `samples/budget.xlsx.txt`). Reviewers read the cell diff there.
+
+- `setup.ps1` installs a `pre-commit` hook (`tools/hooks/pre-commit`) that regenerates and stages the sidecar whenever a workbook is committed.
+- Manually: `python tools/sync_sidecars.py` (add `--check` to verify only).
+- `.github/workflows/xlsx-sidecar-check.yml` fails a PR if a sidecar is missing or stale, which catches commits made without the hook.
+
+## 4. Other options
 
 - **Sidecar text file**: commit a generated `book.xlsx.txt` next to each workbook, so the normal Files changed tab shows a diff.
 - **Rich visual diffs**: Microsoft Spreadsheet Compare (Windows), xlCompare, or Beyond Compare.
