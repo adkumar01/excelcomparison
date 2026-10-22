@@ -1,0 +1,39 @@
+name: Excel diff
+
+on:
+  pull_request:
+    paths: ["**/*.xlsx", "**/*.xlsm"]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install openpyxl
+      - name: Build text diff of changed workbooks
+        run: |
+          : > diff.md
+          git diff --name-only --diff-filter=AM "origin/${{ github.base_ref }}...HEAD" -- '*.xlsx' '*.xlsm' | while read -r f; do
+            python tools/xlsx2txt.py "$f" > new.txt
+            if git cat-file -e "origin/${{ github.base_ref }}:$f" 2>/dev/null; then
+              git show "origin/${{ github.base_ref }}:$f" > old.xlsx
+              python tools/xlsx2txt.py old.xlsx > old.txt
+            else
+              : > old.txt
+            fi
+            { echo "### \`$f\`"; echo '```diff'; diff -u old.txt new.txt | tail -n +3 || true; echo '```'; } >> diff.md
+          done
+          cat diff.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Comment on PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr comment "${{ github.event.pull_request.number }}" --body-file diff.md
