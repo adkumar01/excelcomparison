@@ -8,7 +8,7 @@ Budget!B2: 1100
 Budget!C2: 1200
 Budget!D2: =B2+C2
 Budget!A3: Software
-Budget!B3: 800
+Budget!B3: 850
 Budget!C3: 900
 Budget!D3: =B3+C3
 Budget!A4: Travel
