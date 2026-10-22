@@ -1,2 +1,4 @@
 *.xlsx diff=xlsx
 *.xlsm diff=xlsx
+*.xlsx.txt text eol=lf
+*.xlsm.txt text eol=lf

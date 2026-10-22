@@ -1,0 +1,6 @@
+#!/bin/sh
+# Regenerate and stage the .txt sidecar for every staged workbook.
+git diff --cached --name-only --diff-filter=AM -- '*.xlsx' '*.xlsm' | while IFS= read -r f; do
+  python tools/sync_sidecars.py "$f" || exit 1
+  git add -- "$f.txt"
+done

@@ -1,0 +1,24 @@
+### Sheet: Budget (dimensions A1:D5)
+Budget!A1: Item
+Budget!B1: Q1
+Budget!C1: Q2
+Budget!D1: Total
+Budget!A2: Hardware
+Budget!B2: 1100
+Budget!C2: 1200
+Budget!D2: =B2+C2
+Budget!A3: Software
+Budget!B3: 850
+Budget!C3: 900
+Budget!D3: =B3+C3
+Budget!A4: Travel
+Budget!B4: 300
+Budget!C4: 275
+Budget!D4: =B4+C4
+Budget!A5: Training
+Budget!B5: 150
+Budget!C5: 200
+Budget!D5: =B5+C5
+### Sheet: Notes (dimensions A1:A2)
+Notes!A1: Revised after Q2 review
+Notes!A2: Travel Q2 raised to 275 per finance
